@@ -11,9 +11,82 @@ class ChatGPTScreen extends StatefulWidget {
 }
 
 class _ChatGPTScreenState extends State<ChatGPTScreen> {
+   Color optedcolor=Colors.black;
+   double optedfontsize=20;
   final List<Message> _messages = [];
 
   final TextEditingController _textEditingController = TextEditingController();
+
+  void savechatcustomization(Color color,double fontsize){
+
+    setState(() {
+      optedcolor=color;
+      optedfontsize=fontsize;
+    });
+    Navigator.of(context).pop();
+
+
+  }
+
+  void chatcustomize()
+  {
+
+    showDialog(context: context, builder: (context)=>AlertDialog(title: Text('customize chat'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text("select color"),
+
+            Row(children: [
+              ElevatedButton(onPressed: (){optedcolor=Colors.red;}, child: Text('red')),
+              Padding(
+                padding: const EdgeInsets.only(left:14),
+                child: ElevatedButton(onPressed: (){optedcolor=Colors.green;}, child: Text('green')),
+              ),
+            ],),
+
+            Row(children: [
+              ElevatedButton(onPressed: (){optedcolor=Colors.blue;}, child: Text('blue')),
+              Padding(
+                padding: const EdgeInsets.only(left:14),
+                child: ElevatedButton(onPressed: (){optedcolor=Colors.purple;}, child: Text('purple')),
+              )
+            ],),
+
+
+
+            Text("select fontsize"),
+            Row(children: [ElevatedButton(onPressed: (){optedfontsize=12;}, child: Text('12')),
+              Padding(
+                padding: const EdgeInsets.only(left:14),
+                child: ElevatedButton(onPressed: (){optedfontsize=15;;}, child: Text('15')),
+              ),],),
+
+            Row(children: [ ElevatedButton(onPressed: (){optedfontsize=18;;}, child: Text('18')),
+        Padding(
+          padding: const EdgeInsets.only(left:14),
+          child: ElevatedButton(onPressed: (){optedfontsize=24;;}, child: Text('24')),
+        ),],),
+
+            Row(children: [
+              ElevatedButton(onPressed: (){optedfontsize=30;}, child: Text('30'))
+            ],)
+
+
+          ],
+        ),
+      ),
+      actions: [MaterialButton(onPressed: (){savechatcustomization(optedcolor,optedfontsize);},child: Text('save'),),
+        MaterialButton(onPressed: (){Navigator.of(context).pop();},child: Text('cancel'),)
+
+
+
+      ],
+    ));
+  }
+
+
 
   void onSendMessage() async {
     Message message = Message(text: _textEditingController.text, isMe: true);
@@ -75,7 +148,7 @@ class _ChatGPTScreenState extends State<ChatGPTScreen> {
               message.isMe ? 'You' : 'GPT',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text(message.text),
+            Text(message.text,style: TextStyle(color: optedcolor,fontSize: optedfontsize),),
           ],
         ),
       ),
@@ -92,6 +165,7 @@ class _ChatGPTScreenState extends State<ChatGPTScreen> {
         children: <Widget>[
           Expanded(
             child: ListView.builder(
+
               reverse: true,
               itemCount: _messages.length,
               itemBuilder: (BuildContext context, int index) {
@@ -99,11 +173,17 @@ class _ChatGPTScreenState extends State<ChatGPTScreen> {
               },
             ),
           ),
+          ElevatedButton(onPressed: chatcustomize, child: Text("Chat Customization"),style:ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.green),
+          )),
           Divider(height: 1.0),
           Container(
             decoration: BoxDecoration(color: Theme.of(context).cardColor),
             child: Row(
               children: <Widget>[
+                
+
+                
                 Expanded(
                   child: TextField(
                     controller: _textEditingController,
