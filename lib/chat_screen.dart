@@ -41,16 +41,18 @@ class _ChatGPTScreenState extends State<ChatGPTScreen> {
             Row(children: [
               ElevatedButton(onPressed: (){optedcolor=Colors.red;}, child: Text('red')),
               Padding(
-                padding: const EdgeInsets.only(left:14),
+                padding: const EdgeInsets.only(left:14,right:14),
                 child: ElevatedButton(onPressed: (){optedcolor=Colors.green;}, child: Text('green')),
               ),
+
+
             ],),
 
             Row(children: [
               ElevatedButton(onPressed: (){optedcolor=Colors.blue;}, child: Text('blue')),
               Padding(
                 padding: const EdgeInsets.only(left:14),
-                child: ElevatedButton(onPressed: (){optedcolor=Colors.purple;}, child: Text('purple')),
+                child: ElevatedButton(onPressed: (){optedcolor=Colors.black;}, child: Text('black')),
               )
             ],),
 
@@ -173,9 +175,20 @@ class _ChatGPTScreenState extends State<ChatGPTScreen> {
               },
             ),
           ),
-          ElevatedButton(onPressed: chatcustomize, child: Text("Chat Customization"),style:ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.green),
-          )),
+
+          Row(children: [
+            Padding(
+              padding: const EdgeInsets.only(left:15,right:15),
+              child: ElevatedButton(onPressed: chatcustomize, child: Text("Chat Customization"),style:ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.green))),
+            ),
+              ElevatedButton(onPressed: (){_messages.clear() ;}, child: Text("Clear chat"),style:ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red),
+              )),
+
+
+          ],),
+
           Divider(height: 1.0),
           Container(
             decoration: BoxDecoration(color: Theme.of(context).cardColor),
